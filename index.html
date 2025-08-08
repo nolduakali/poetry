@@ -1,1 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Daftar Puisi</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    .puisi { border: 1px solid #ccc; padding: 10px; margin-bottom: 15px; }
+    .title { font-weight: bold; font-size: 18px; }
+    .author { color: #666; margin-bottom: 8px; }
+    pre { white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>Daftar Puisi</h1>
+  <div id="puisi-container">Memuat puisi...</div>
 
+  <script>
+    fetch('puisi.json')
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('puisi-container');
+        container.innerHTML = '';
+        data.forEach(item => {
+          const puisiEl = document.createElement('div');
+          puisiEl.className = 'puisi';
+          puisiEl.innerHTML = `
+            <div class="title">${item.title}</div>
+            <div class="author">${item.author}</div>
+            <pre>${item.puisi}</pre>
+          `;
+          container.appendChild(puisiEl);
+        });
+      })
+      .catch(error => {
+        document.getElementById('puisi-container').textContent = 'Gagal memuat puisi: ' + error;
+      });
+  </script>
+</body>
+</html>
